@@ -18,21 +18,7 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(c == 10)
     }
 
-    func testConstant_plus_Constant() {
-
-        let constantToken = "10 + 10".tokenized()
-        let f = createObservableTokens()
-        let readWriteProperty = constantToken.reduce([], f).first
-
-        XCTAssertNotNil(readWriteProperty)
-        guard case .constant(let c) = readWriteProperty! else {
-            fatalError("Should be a readWrite property")
-        }
-
-        XCTAssertTrue(c == 20)
-    }
-
-    func testSingleVariable() {
+    func testSingleVariable_0() {
 
         let propertyX = createObservables(x: "X")
 
@@ -44,7 +30,7 @@ final class PropertyGeneratorTest: XCTestCase {
         }
     }
 
-    func testVariable_plus_1() {
+    func testVariable_1() {
 
         let properties = createObservables(x: "X", y: "X + 10")
 
@@ -62,7 +48,7 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(y.value == 20)
     }
 
-    func testVariable_plus_2() {
+    func testVariable_2() {
 
         let properties = createObservables(x: "X", y: "5 + X + 10")
 
@@ -80,7 +66,7 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(y.value == 25)
     }
 
-    func testVariable_plus_3() {
+    func testVariable_3() {
 
         let properties = createObservables(x: "X", y: "10 + X")
 
@@ -117,5 +103,26 @@ final class PropertyGeneratorTest: XCTestCase {
         x.value = 10
         y.value = 10
         XCTAssertTrue(z.value == 30)
+    }
+
+
+    func testConstant_operations() {
+
+        let operations = ["5 + 3", "5 - 3", "5 * 3", "5 / 3"]
+        let results: [Double] = [8, 2, 15, (5 / 3)]
+
+        for (index, val) in operations.enumerated() {
+
+            let constantToken = val.tokenized()
+            let f = createObservableTokens()
+            let readWriteProperty = constantToken.reduce([], f).first
+
+            XCTAssertNotNil(readWriteProperty)
+            guard case .constant(let c) = readWriteProperty! else {
+                fatalError("Should be a readWrite property")
+            }
+            
+            XCTAssertTrue(c == results[index])
+        }
     }
 }

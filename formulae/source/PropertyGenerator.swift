@@ -6,14 +6,38 @@ public enum ObservableToken {
     case mathOperator(Operator)
 }
 
-private func + (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+private func apply(f: (Double, Double) -> Double, lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
     switch (lhs, rhs) {
-    case (.observable(let l), .observable(let r)): return .observable(l + r)
-    case (.constant(let l), .constant(let r)): return .constant(l + r)
-    case (.constant(let l), .observable(let r)): return .observable(.readOnly(Property(value: l)) + r)
-    case (.observable, .constant): return rhs + lhs
-    default: fatalError()
+    case (.observable(let x), .observable(let y)):
+        return .observable(apply(f: f, lhs: x, rhs: y))
+    case (.constant(let x), .constant(let y)):
+        return .constant(f(x, y))
+    case (.constant(let x), .observable(let y)):
+        return .observable(apply(f: f, lhs: .readOnly(Property(value: x)), rhs: y))
+    case (.observable(let x), .constant(let y)):
+        return .observable(apply(f: f, lhs: x, rhs: .readOnly(Property(value: y))))
+    default: fatalError("lhs:\(lhs), rhs\(rhs)")
     }
+}
+
+private func + (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+    return apply(f: +, lhs: lhs, rhs: rhs)
+}
+
+private func - (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+    return apply(f: -, lhs: lhs, rhs: rhs)
+}
+
+private func * (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+    return apply(f: *, lhs: lhs, rhs: rhs)
+}
+
+private func / (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+    return apply(f: /, lhs: lhs, rhs: rhs)
+}
+
+private func ^ (lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+    return apply(f: ^, lhs: lhs, rhs: rhs)
 }
 
 public enum Observable {
@@ -23,6 +47,22 @@ public enum Observable {
 
 private func + (lhs: Observable, rhs: Observable) -> Observable {
     return apply(f: +, lhs: lhs, rhs: rhs)
+}
+
+private func - (lhs: Observable, rhs: Observable) -> Observable {
+    return apply(f: -, lhs: lhs, rhs: rhs)
+}
+
+private func * (lhs: Observable, rhs: Observable) -> Observable {
+    return apply(f: *, lhs: lhs, rhs: rhs)
+}
+
+private func / (lhs: Observable, rhs: Observable) -> Observable {
+    return apply(f: /, lhs: lhs, rhs: rhs)
+}
+
+private func ^ (lhs: Observable, rhs: Observable) -> Observable {
+    return apply(f: ^, lhs: lhs, rhs: rhs)
 }
 
 private func apply(f: (Double, Double) -> Double, lhs: Observable, rhs: Observable) -> Observable {
@@ -45,11 +85,10 @@ private func apply(mathOperator: Operator, toStack stack: [ObservableToken]) -> 
 
     switch (mathOperator, d.0, d.1, d.2)  {
     case (.plus, let x, let y, let xs): return [x + y] + xs
-//    case (.minus, let x, let y, let xs): fatalError("minus not implemented")
-//    case (.multiplication, let x, let y, let xs): : fatalError("multiplication not implemented")
-//    case (.division, let x, let y, let xs): : fatalError("division not implemented")
-//    case (.power, let x, let y, let xs): : fatalError("power not implemented")
-    default: fatalError("\(mathOperator) not implemented")
+    case (.minus, let x, let y, let xs): return [y - x] + xs
+    case (.multiplication, let x, let y, let xs): return [x * y] + xs //fatalError("multiplication not implemented")
+    case (.division, let x, let y, let xs): return [y / x] + xs
+    case (.power, let x, let y, let xs): return [y ^ x] + xs
     }
 }
 
