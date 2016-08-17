@@ -102,9 +102,9 @@ final class PropertyGeneratorTest: XCTestCase {
 
         x.value = 10
         y.value = 10
+        
         XCTAssertTrue(z.value == 30)
     }
-
 
     func testConstant_operations() {
 
