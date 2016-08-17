@@ -1,4 +1,7 @@
 # Xcode
+Carthage/Checkouts
+*.framework.dSYM
+*.bcsymbolmap
 .DS_Store
 *.pbxuser
 !default.pbxuser
