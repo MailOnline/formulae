@@ -54,14 +54,12 @@ Finally we apply this function `f` to each array of tokens:
 The output will be a chain of properties that respect what we described: `z = x * y`. 
 
 ```swift
-propertyZ.producer.startWithNext {
-	print($0) 
-}
-                    //   z.value == 0 ( 0 * 0)
-mutablePropertyX.value = 1 //   z.value == 0 ( 1 * 0)
-mutablePropertyY.value = 1 //   z.value == 1 ( 1 * 1)
-mutablePropertyY.value = 3 //   z.value == 3 ( 1 * 3)
-mutablePropertyX.value = 2 //   z.value == 6 ( 2 * 3)	
+// z.value == 0 ( 0 * 0)
+
+mutablePropertyX.value = 1 // z.value == 0 ( 1 * 0)
+mutablePropertyY.value = 1 // z.value == 1 ( 1 * 1)
+mutablePropertyY.value = 3 // z.value == 3 ( 1 * 3)
+mutablePropertyX.value = 2 // z.value == 6 ( 2 * 3)
 ```
 
 ## License
