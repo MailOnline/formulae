@@ -18,10 +18,23 @@ public enum Symbol {
     }
 }
 
+extension Symbol: Equatable {}
+
+public func == (lhs: Symbol, rhs: Symbol) -> Bool {
+
+    switch(lhs, rhs) {
+    case (.mathOperator(let x), .mathOperator(let y)): return x == y
+    case (.mathParenthesis(let x), .mathParenthesis(let y)): return x == y
+    default: return false
+    }
+}
+
 public enum Parenthesis: String {
     case open = "("
     case close = ")"
 }
+
+extension Parenthesis: Equatable {}
 
 private enum Associativity {
     case left
@@ -51,20 +64,23 @@ public enum Operator: String {
     }
 }
 
-extension Operator: Comparable {}
-
-public func < (lhs: Operator, rhs: Operator) -> Bool {
-    return lhs.precendence < rhs.precendence
-}
-
-public func == (lhs: Operator, rhs: Operator) -> Bool {
-    return lhs.precendence == rhs.precendence
-}
+extension Operator: Equatable {}
 
 public enum Token {
     case variable(String)
     case constant(Double)
     case mathSymbol(Symbol)
+}
+
+extension Token: Equatable {}
+
+public func == (lhs: Token, rhs: Token) -> Bool {
+    switch(lhs, rhs) {
+    case (.variable(let x), .variable(let y)): return x == y
+    case (.constant(let x), .constant(let y)): return x == y
+    case (.mathSymbol(let x), .mathSymbol(let y)): return x == y
+    default: return false
+    }
 }
 
 // https://en.wikipedia.org/wiki/Shunting-yard_algorithm
@@ -91,10 +107,10 @@ public func tokenize(_ expression: [String], output: [Token] = [], symbolStack: 
 
     switch (newSymbol, firstSymbol) {
 
-    case (.mathOperator(let newOp), .mathOperator(let oldOp)) where (newOp >= oldOp && newOp.associativity == .right):
+    case (.mathOperator(let newOp), .mathOperator(let oldOp)) where (newOp.precendence >= oldOp.precendence && newOp.associativity == .right):
         return tokenize(subExpression, output: output, symbolStack: [newSymbol] + symbolStack)
 
-    case (.mathOperator(let newOp), .mathOperator(let oldOp)) where newOp > oldOp:
+    case (.mathOperator(let newOp), .mathOperator(let oldOp)) where newOp.precendence > oldOp.precendence:
         return tokenize(subExpression, output: output, symbolStack: [newSymbol] + symbolStack)
 
     case (.mathOperator, .mathOperator):
