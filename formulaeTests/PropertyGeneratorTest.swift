@@ -8,7 +8,6 @@ final class PropertyGeneratorTest: XCTestCase {
 
         let tokensX = "X".tokenized()
         let properties = ["X" : tokensX]
-
         let f = createObservableTokens(polishTokensMap: properties)
         let readWriteProperty = tokensX.reduce([], f).first
 
@@ -21,7 +20,7 @@ final class PropertyGeneratorTest: XCTestCase {
     func testConstant() {
 
         let constantToken = "10".tokenized()
-        let f = createObservableTokens(polishTokensMap: [:])
+        let f = createObservableTokens()
         let readWriteProperty = constantToken.reduce([], f).first
 
         XCTAssertNotNil(readWriteProperty)
@@ -35,7 +34,7 @@ final class PropertyGeneratorTest: XCTestCase {
     func testConstant_plus_Constant() {
 
         let constantToken = "10 + 10".tokenized()
-        let f = createObservableTokens(polishTokensMap: [:])
+        let f = createObservableTokens()
         let readWriteProperty = constantToken.reduce([], f).first
 
         XCTAssertNotNil(readWriteProperty)

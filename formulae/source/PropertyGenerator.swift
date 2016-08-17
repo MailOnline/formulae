@@ -53,7 +53,7 @@ private func apply(mathOperator: Operator, toStack stack: [ObservableToken]) -> 
     }
 }
 
-public func createObservableTokens(polishTokensMap:[String: [Token]]) -> ([ObservableToken], Token) -> [ObservableToken] {
+public func createObservableTokens(polishTokensMap: [String: [Token]] = [:]) -> ([ObservableToken], Token) -> [ObservableToken] {
 
     // https://en.wikipedia.org/wiki/Memoization
     var memo: [String: MutableProperty<Double>] = [:]
