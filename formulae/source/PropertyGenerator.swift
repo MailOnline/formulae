@@ -53,7 +53,7 @@ private func apply(mathOperator: Operator, toStack stack: [ObservableToken]) -> 
     }
 }
 
-public func createObservableTokens(polishTokensMap: [String: [Token]] = [:]) -> ([ObservableToken], Token) -> [ObservableToken] {
+public func createObservableTokens(variableToTokens: [String: [Token]] = [:]) -> ([ObservableToken], Token) -> [ObservableToken] {
 
     // https://en.wikipedia.org/wiki/Memoization
     var memo: [String: MutableProperty<Double>] = [:]
@@ -66,7 +66,7 @@ public func createObservableTokens(polishTokensMap: [String: [Token]] = [:]) -> 
                 return [.observable(.readWrite(property))]
             }
 
-            let tokens = polishTokensMap[variable]!
+            let tokens = variableToTokens[variable]!
             //1st check if we are dealing with just a var (simpler case)
             guard tokens.count != 1 else {
 

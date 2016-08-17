@@ -13,6 +13,7 @@
 		C75804FB1D61DB5700F21AF8 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75804FA1D61DB5700F21AF8 /* Tokenizer.swift */; };
 		C75804FD1D61DE9500F21AF8 /* PropertyGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75804FC1D61DE9500F21AF8 /* PropertyGenerator.swift */; };
 		C76133811D647F3500D50AFD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76133801D647F3500D50AFD /* String.swift */; };
+		C763A4A81D64BB5F00FEDA14 /* TestsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C763A4A71D64BB5F00FEDA14 /* TestsUtil.swift */; };
 		C7C07E7F1D61FF5C009BFD20 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C07E7D1D61FF5C009BFD20 /* ReactiveCocoa.framework */; };
 		C7C07E801D61FF5C009BFD20 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C07E7E1D61FF5C009BFD20 /* Result.framework */; };
 /* End PBXBuildFile section */
@@ -37,6 +38,7 @@
 		C75804FC1D61DE9500F21AF8 /* PropertyGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyGenerator.swift; sourceTree = "<group>"; };
 		C76133801D647F3500D50AFD /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		C76133831D64808F00D50AFD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C763A4A71D64BB5F00FEDA14 /* TestsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestsUtil.swift; sourceTree = "<group>"; };
 		C7C07E7D1D61FF5C009BFD20 /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
 		C7C07E7E1D61FF5C009BFD20 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				C75804EA1D61D67000F21AF8 /* PropertyGeneratorTest.swift */,
+				C763A4A71D64BB5F00FEDA14 /* TestsUtil.swift */,
 				C76133821D64808000D50AFD /* Supporting Files */,
 			);
 			path = formulaeTests;
@@ -182,6 +185,7 @@
 				C75804E11D61D67000F21AF8 /* Sources */,
 				C75804E21D61D67000F21AF8 /* Frameworks */,
 				C75804E31D61D67000F21AF8 /* Resources */,
+				C763A4A61D64ADF500FEDA14 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -268,6 +272,21 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		C763A4A61D64ADF500FEDA14 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -287,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C75804EB1D61D67000F21AF8 /* PropertyGeneratorTest.swift in Sources */,
+				C763A4A81D64BB5F00FEDA14 /* TestsUtil.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -453,7 +473,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2STRS88LBE;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Carthage/Build/iOS/",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "formulaeTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.formulaeTests;
@@ -466,7 +489,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 2STRS88LBE;
-				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)/Carthage/Build/iOS/";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/Carthage/Build/iOS/",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = "formulaeTests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mailonline.formulaeTests;
