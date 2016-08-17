@@ -45,6 +45,21 @@ public enum Observable {
     case readWrite(MutableProperty<Double>)
 }
 
+private func apply(f: (Double, Double) -> Double, lhs: Observable, rhs: Observable) -> Observable {
+    switch (lhs, rhs) {
+    case (.readOnly(let x), .readOnly(let y)):
+        return .readOnly(x.combineLatest(with: y).map(f))
+    case (.readOnly, .readWrite(let y)):
+        return apply(f: f, lhs: lhs, rhs: .readOnly(Property(y)))
+    case (.readWrite, .readOnly):
+        return apply(f: f, lhs: rhs, rhs: lhs)
+    case (.readWrite(let x), .readWrite(let y)):
+        let pX = Property(x)
+        let pY = Property(y)
+        return apply(f: f, lhs: .readOnly(pX), rhs: .readOnly(pY))
+    }
+}
+
 private func + (lhs: Observable, rhs: Observable) -> Observable {
     return apply(f: +, lhs: lhs, rhs: rhs)
 }
@@ -65,28 +80,13 @@ private func ^ (lhs: Observable, rhs: Observable) -> Observable {
     return apply(f: ^, lhs: lhs, rhs: rhs)
 }
 
-private func apply(f: (Double, Double) -> Double, lhs: Observable, rhs: Observable) -> Observable {
-    switch (lhs, rhs) {
-    case (.readOnly(let x), .readOnly(let y)):
-        return .readOnly(x.combineLatest(with: y).map(f))
-    case (.readOnly, .readWrite(let y)):
-        return apply(f: f, lhs: lhs, rhs: .readOnly(Property(y)))
-    case (.readWrite, .readOnly):
-        return apply(f: f, lhs: rhs, rhs: lhs)
-    case (.readWrite(let x), .readWrite(let y)):
-        let pX = Property(x)
-        let pY = Property(y)
-        return apply(f: f, lhs: .readOnly(pX), rhs: .readOnly(pY))
-    }
-}
-
 private func apply(mathOperator: Operator, toStack stack: [ObservableToken]) -> [ObservableToken] {
     let d = stack.deconstructed()
 
     switch (mathOperator, d.0, d.1, d.2)  {
     case (.plus, let x, let y, let xs): return [x + y] + xs
     case (.minus, let x, let y, let xs): return [y - x] + xs
-    case (.multiplication, let x, let y, let xs): return [x * y] + xs //fatalError("multiplication not implemented")
+    case (.multiplication, let x, let y, let xs): return [x * y] + xs
     case (.division, let x, let y, let xs): return [y / x] + xs
     case (.power, let x, let y, let xs): return [y ^ x] + xs
     }
