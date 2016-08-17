@@ -11,11 +11,11 @@ formulae in a nutshell is able to generate observables (`Property<T>` and `Mutab
 1. Generates a [reverse polish notation](https://en.wikipedia.org/wiki/Reverse_Polish_notation) representation from an input string via Dijkstra's [Shunting-yard algorithm] (https://en.wikipedia.org/wiki/Shunting-yard_algorithm). Something like `5 + X`, in our intermediate representation, would look like this: `[.constant(5), .variable("X"), .mathSymbol(.mathOperator(.plus)]`
 2. We then transform the `.variable`s into actual [observable properties](https://github.com/ReactiveCocoa/ReactiveCocoa/blob/master/ReactiveCocoa/Swift/Property.swift). Internally, it uses memoization to achieve this, since we need to cache each newly created property and use it when an operation is about to be used. If we didn't cache each property, it would be impossible to chain and create dependencies between them (for example with `y = x + 5` the variable `y` depends on `x`)
 
-### Why?
-
 This approaches opens the door to dynamic UI's that rely in mathematical formulas in a simple and expressive way.
 
-Imagine a scenario where we have two sliders and a label that represents the product of both sliders values. 
+### Example
+
+ Imagine a scenario where we have two sliders and a label that represents the product of both sliders values. 
 
 Let's start by creating the formula:
 
@@ -43,7 +43,7 @@ We then create a function that will generate an observable token for each variab
 ```swift
 let f = createObservableTokens(variableToTokens: variables)
 ```
-Finnally we apply this function `f` to each array of tokens:
+Finally we apply this function `f` to each array of tokens:
 
 ```swift
  let propertyX = tokensX.reduce([], f).first // .readWrite(let mutablePropertyX)
@@ -52,6 +52,17 @@ Finnally we apply this function `f` to each array of tokens:
 ```
 
 The output will be a chain of properties that respect what we described: `z = x * y`. 
+
+```swift
+propertyZ.producer.startWithNext {
+	print($0) 
+}
+                    //   z.value == 0 ( 0 * 0)
+propertyX.value = 1 //   z.value == 0 ( 1 * 0)
+propertyY.value = 1 //   z.value == 1 ( 1 * 1)
+propertyY.value = 3 //   z.value == 3 ( 1 * 3)
+propertyX.value = 2 //   z.value == 6 ( 2 * 3)	
+```
 
 ## License
 Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
