@@ -129,7 +129,7 @@ private func createObservableTokens(variableToTokens: [String: [Token]] = [:]) -
     return _createObservableTokens
 }
 
-public func createObservables(variableToFormula: [String: String]) -> [String: Observable] {
+public func createObservables(withFormula variableToFormula: [String: String]) -> [String: Observable] {
 
     let variableToTokens: [String: [Token]] = variableToFormula.map { key, value in
         return value.tokenized()

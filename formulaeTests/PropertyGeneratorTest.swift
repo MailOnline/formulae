@@ -6,7 +6,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testSingleConstant() {
 
-        let observables = createObservables(variableToFormula: ["X": "10"])
+        let observables = createObservables(withFormula: ["X": "10"])
 
         guard
              case .some(.readOnly(let property)) = observables["X"]
@@ -19,7 +19,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testSingleVariable_0() {
 
-        let observables = createObservables(variableToFormula: ["X": "X"])
+        let observables = createObservables(withFormula: ["X": "X"])
 
         guard
             case .some(.readWrite(let property)) = observables["X"]
@@ -32,7 +32,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testVariable_1() {
 
-        let observables = createObservables(variableToFormula: ["X": "X",
+        let observables = createObservables(withFormula: ["X": "X",
                                                                 "Y": "X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
@@ -47,7 +47,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testVariable_2() {
 
-        let observables = createObservables(variableToFormula: ["X": "X",
+        let observables = createObservables(withFormula: ["X": "X",
                                                                 "Y": "5 + X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
@@ -62,7 +62,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testVariableDependency_1() {
 
-        let observables = createObservables(variableToFormula: ["X": "X",
+        let observables = createObservables(withFormula: ["X": "X",
                                                                 "Y": "X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
@@ -81,7 +81,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testVariableMultipleVariables() {
 
-        let observables = createObservables(variableToFormula: ["X": "X",
+        let observables = createObservables(withFormula: ["X": "X",
                                                                 "Y": "Y",
                                                                 "Z": "X + Y"])
         guard
@@ -109,7 +109,7 @@ final class PropertyGeneratorTest: XCTestCase {
 
         for (index, val) in operations.enumerated() {
 
-            let observables = createObservables(variableToFormula: ["X" : val])
+            let observables = createObservables(withFormula: ["X" : val])
 
             guard
                 case .some(.readOnly(let propertyX)) = observables["X"]
