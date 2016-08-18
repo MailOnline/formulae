@@ -15,51 +15,39 @@ This approaches opens the door to dynamic UI's that rely in mathematical formula
 
 ### Example
 
- Imagine a scenario where we have two sliders and a label that represents the product of both sliders values. 
-
-Let's start by creating the formula:
+Imagine a scenario where we have one slider and a label that represents the sum of 10 plus the slider's value. Let's start by creating the equation:
 
 ```swift
-let z = "x * y"
+let y = "x + 10"
 ```
 
-`x` and `y` are what we would like to change with our sliders.  `z` is what we would like to observe and eventually update the label with. It's important to notice that a formula (in this case `z`) is a read only property (`Property<T>`) while `x` and `y` are read/write (`MutableProperty<T>`). 
+`x` is what we would like to change with our slider. `y` is what we would like to observe and eventually update the label with. It's important to notice that `y` is a read only property (`Property<T>`) while `x` is read/write (`MutableProperty<T>`). 
 
-The first step is to create tokens from it:
-
-```swift
-let xT = "x".tokenized()
-let yT = "y".tokenized()
-let zT = "x * y".tokenized()
-```
-We then map each representation to its variable:
+The first step is to create a formula (a map between a variable and its equation):
 
 ```swift
-let variables = ["x" : xT, "y" : yT,  "z" : zT]
+let formula = ["x": "x", "y": "x + 10"])
 ```
 
-We then create a function that will generate an observable token for each variable (`x`, `y` and `z`):
-
-```swift
-let f = createObservableTokens(variableToTokens: variables)
+We need to create `"x": "x"`, in order for formulae internal parser to understand that this is a `readWrite` observable. The second and final step is to create the observables:
+ 
+ ```swift
+let observables = createObservables(withFormula: formula)
+ guard
+    case .some(.readWrite(let propertyX)) = observables["X"],
+    case .some(.readOnly(let propertyY)) = observables["Y"]
+ else {
+    fatalError("\(observables)")
+ }
 ```
-Finally we apply this function `f` to each array of tokens:
+ 
+The output will be a chain of properties that respect what we described: `y = x + 10`. 
 
 ```swift
- let pX = tokensX.reduce([], f).first // .readWrite(let mutablePropertyX)
- let pY = tokensY.reduce([], f).first // .readWrite(let mutablePropertyY)
- let pZ = tokensZ.reduce([], f).first // .readOnly(let propertyZ)
-```
+// y.value == 10 ( 0 + 10)
 
-The output will be a chain of properties that respect what we described: `z = x * y`. 
-
-```swift
-// z.value == 0 ( 0 * 0)
-
-mutablePropertyX.value = 1 // z.value == 0 ( 1 * 0)
-mutablePropertyY.value = 1 // z.value == 1 ( 1 * 1)
-mutablePropertyY.value = 3 // z.value == 3 ( 1 * 3)
-mutablePropertyX.value = 2 // z.value == 6 ( 2 * 3)
+mutablePropertyX.value = 1 // y.value == 11 ( 1 + 10)
+mutablePropertyX.value = 2 // y.value == 12 ( 2 + 10)
 ```
 
 ## License
