@@ -52,6 +52,6 @@ propertyX.value = 2 // propertyY.value == 12 ( 2 + 10 )
 ```
 
 ## License
-Reactor is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
+formulae is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
 
 Copyright (c) 2016 MailOnline
