@@ -1,6 +1,6 @@
 import ReactiveCocoa
 
-public enum ObservableToken {
+private enum ObservableToken {
     case observable(Observable)
     case constant(Double)
     case mathOperator(Operator)
@@ -92,7 +92,7 @@ private func apply(mathOperator: Operator, toStack stack: [ObservableToken]) -> 
     }
 }
 
-public func createObservableTokens(variableToTokens: [String: [Token]] = [:]) -> ([ObservableToken], Token) -> [ObservableToken] {
+private func createObservableTokens(variableToTokens: [String: [Token]] = [:]) -> ([ObservableToken], Token) -> [ObservableToken] {
 
     // https://en.wikipedia.org/wiki/Memoization
     var memo: [String: MutableProperty<Double>] = [:]
@@ -127,4 +127,24 @@ public func createObservableTokens(variableToTokens: [String: [Token]] = [:]) ->
     }
     
     return _createObservableTokens
+}
+
+public func createObservables(variableToFormula: [String: String]) -> [String: Observable] {
+
+    let variableToTokens: [String: [Token]] = variableToFormula.map { key, value in
+        return value.tokenized()
+    }
+
+    let f = createObservableTokens(variableToTokens: variableToTokens)
+
+    return variableToTokens.map { key, tokens in
+
+        guard let observableToken = tokens.reduce([], f).first else { fatalError("There should be at least one value") }
+
+        switch observableToken {
+        case .constant(let constant): return.readOnly(Property(value: constant))
+        case .observable(let observable):return observable
+        case .mathOperator: fatalError("There should never an operator")
+        }
+    }
 }

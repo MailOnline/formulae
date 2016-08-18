@@ -6,104 +6,100 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testSingleConstant() {
 
-        let constantToken = "10".tokenized()
-        let f = createObservableTokens()
-        let readWriteProperty = constantToken.reduce([], f).first
+        let observables = createObservables(variableToFormula: ["X": "10"])
 
-        XCTAssertNotNil(readWriteProperty)
-        guard case .constant(let c) = readWriteProperty! else {
-            fatalError("Should be a readWrite property")
+        guard
+             case .some(.readOnly(let property)) = observables["X"]
+        else {
+            fatalError("\(observables)")
         }
 
-        XCTAssertTrue(c == 10)
+        XCTAssert(property.value == 10)
     }
 
     func testSingleVariable_0() {
 
-        let propertyX = createObservables(x: "X")
-
-        XCTAssertNotNil(propertyX)
+        let observables = createObservables(variableToFormula: ["X": "X"])
 
         guard
-            case .some(.readWrite) = propertyX else {
-            fatalError("\(propertyX) should be a readWrite property")
+            case .some(.readWrite(let property)) = observables["X"]
+            else {
+                fatalError("\(observables)")
         }
+
+        XCTAssert(property.value == 0)
     }
 
     func testVariable_1() {
 
-        let properties = createObservables(x: "X", y: "X + 10")
-
-        XCTAssertNotNil(properties.0)
-        XCTAssertNotNil(properties.1)
-
+        let observables = createObservables(variableToFormula: ["X": "X",
+                                                                "Y": "X + 10"])
         guard
-            case .some(.readWrite(let x)) = properties.0,
-            case .some(.readOnly(let y)) = properties.1
+            case .some(.readWrite(let propertyX)) = observables["X"],
+            case .some(.readOnly(let propertyY)) = observables["Y"]
         else {
-            fatalError("\(properties.0) should be readWrite\n\(properties.1) should be readOnly")
+            fatalError("\(observables)")
         }
 
-        x.value = 10
-        XCTAssertTrue(y.value == 20)
+        XCTAssertTrue(propertyX.value == 0)
+        XCTAssertTrue(propertyY.value == 10)
     }
 
     func testVariable_2() {
 
-        let properties = createObservables(x: "X", y: "5 + X + 10")
-
-        XCTAssertNotNil(properties.0)
-        XCTAssertNotNil(properties.1)
-
+        let observables = createObservables(variableToFormula: ["X": "X",
+                                                                "Y": "5 + X + 10"])
         guard
-            case .some(.readWrite(let x)) = properties.0,
-            case .some(.readOnly(let y)) = properties.1
+            case .some(.readWrite(let propertyX)) = observables["X"],
+            case .some(.readOnly(let propertyY)) = observables["Y"]
             else {
-                fatalError("\(properties.0) should be readWrite\n\(properties.1) should be readOnly")
+                fatalError("\(observables)")
         }
 
-        x.value = 10
-        XCTAssertTrue(y.value == 25)
+        XCTAssertTrue(propertyX.value == 0)
+        XCTAssertTrue(propertyY.value == 15)
     }
 
-    func testVariable_3() {
+    func testVariableDependency_1() {
 
-        let properties = createObservables(x: "X", y: "10 + X")
-
-        XCTAssertNotNil(properties.0)
-        XCTAssertNotNil(properties.1)
-
+        let observables = createObservables(variableToFormula: ["X": "X",
+                                                                "Y": "X + 10"])
         guard
-            case .some(.readWrite(let x)) = properties.0,
-            case .some(.readOnly(let y)) = properties.1
+            case .some(.readWrite(let propertyX)) = observables["X"],
+            case .some(.readOnly(let propertyY)) = observables["Y"]
             else {
-                fatalError("\(properties.0) should be readWrite\n\(properties.1) should be readOnly")
+                fatalError("\(observables)")
         }
 
-        x.value = 10
-        XCTAssertTrue(y.value == 20)
+        XCTAssertTrue(propertyX.value == 0)
+        XCTAssertTrue(propertyY.value == 10)
+
+        propertyX.value = 10
+
+        XCTAssertTrue(propertyY.value == 20)
     }
 
     func testVariableMultipleVariables() {
 
-        let properties = createObservables(x: "X", y: "Y", z: "X + Y + 10")
-
-        XCTAssertNotNil(properties.0)
-        XCTAssertNotNil(properties.1)
-        XCTAssertNotNil(properties.2)
-
+        let observables = createObservables(variableToFormula: ["X": "X",
+                                                                "Y": "Y",
+                                                                "Z": "X + Y"])
         guard
-            case .some(.readWrite(let x)) = properties.0,
-            case .some(.readWrite(let y)) = properties.1,
-            case .some(.readOnly(let z)) = properties.2
+            case .some(.readWrite(let propertyX)) = observables["X"],
+            case .some(.readWrite(let propertyY)) = observables["Y"],
+            case .some(.readOnly(let propertyZ)) = observables["Z"]
             else {
-                fatalError("\(properties.0) should be readWrite\n\(properties.1) should be readWrite\n\(properties.2) should be readOnly")
+                fatalError("\(observables)")
         }
 
-        x.value = 10
-        y.value = 10
-        
-        XCTAssertTrue(z.value == 30)
+        XCTAssertTrue(propertyX.value == 0)
+        XCTAssertTrue(propertyY.value == 0)
+        XCTAssertTrue(propertyZ.value == 0)
+
+        propertyX.value = 10
+        propertyY.value = 10
+
+        XCTAssertTrue(propertyZ.value == 20)
     }
 
     func testConstant_operations() {
@@ -113,16 +109,15 @@ final class PropertyGeneratorTest: XCTestCase {
 
         for (index, val) in operations.enumerated() {
 
-            let constantToken = val.tokenized()
-            let f = createObservableTokens()
-            let readWriteProperty = constantToken.reduce([], f).first
+            let observables = createObservables(variableToFormula: ["X" : val])
 
-            XCTAssertNotNil(readWriteProperty)
-            guard case .constant(let c) = readWriteProperty! else {
-                fatalError("Should be a readWrite property")
+            guard
+                case .some(.readOnly(let propertyX)) = observables["X"]
+                else {
+                    fatalError("\(observables)")
             }
-            
-            XCTAssertTrue(c == results[index])
+
+            XCTAssertTrue(propertyX.value == results[index])
         }
     }
 }

@@ -1,5 +1,5 @@
 extension String {
-    public func tokenized() -> [Token] {
+    func tokenized() -> [Token] {
         return tokenize(self.components(separatedBy: " "))
     }
 }

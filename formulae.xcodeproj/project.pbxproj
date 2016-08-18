@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C70DD9241D65D14000BAAF60 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70DD9231D65D14000BAAF60 /* Dictionary.swift */; };
 		C74E32AE1D632F53004D7B42 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74E32AD1D632F53004D7B42 /* Array.swift */; };
 		C75804E61D61D67000F21AF8 /* formulae.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75804DC1D61D67000F21AF8 /* formulae.framework */; };
 		C75804EB1D61D67000F21AF8 /* PropertyGeneratorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C75804EA1D61D67000F21AF8 /* PropertyGeneratorTest.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C70DD9231D65D14000BAAF60 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		C74E32AD1D632F53004D7B42 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		C75804DC1D61D67000F21AF8 /* formulae.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = formulae.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C75804E51D61D67000F21AF8 /* formulaeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = formulaeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,6 +76,7 @@
 				C74E32AD1D632F53004D7B42 /* Array.swift */,
 				C76133801D647F3500D50AFD /* String.swift */,
 				C763A4A91D64C07000FEDA14 /* Double.swift */,
+				C70DD9231D65D14000BAAF60 /* Dictionary.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -305,6 +308,7 @@
 				C76133811D647F3500D50AFD /* String.swift in Sources */,
 				C763A4AA1D64C07000FEDA14 /* Double.swift in Sources */,
 				C75804FB1D61DB5700F21AF8 /* Tokenizer.swift in Sources */,
+				C70DD9241D65D14000BAAF60 /* Dictionary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
