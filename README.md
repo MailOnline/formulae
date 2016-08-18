@@ -30,7 +30,7 @@ It's important to notice that `y` is a read only property (`Property<T>`) while 
 let formula = ["x": "x", "y": "x + 10"])
 ```
 
-It needs `"x": "x"`, in order for formulae internal parser to understand that this is a `readWrite` observable. The second and final step is to create the observables:
+It needs `"x": "x"`, in order for *formulae* internal parser to understand that this is a `readWrite` observable. The second and final step is to create the observables:
  
  ```swift
 let observables = createObservables(withFormula: formula)
@@ -51,8 +51,18 @@ The output will be a chain of properties that respect what was described: `y = x
 propertyX.value = 1 // propertyY.value == 11 ( 1 + 10 )
 propertyX.value = 2 // propertyY.value == 12 ( 2 + 10 )
 ```
+### Supported Operators
+
+* `+`
+* `-`
+* `*`
+* `/`
+* `^`
+
+You can also parenthesis:  `x * ( 2 + 3 )`
+
 
 ## License
-formulae is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
+*formulae* is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
 
 Copyright (c) 2016 MailOnline
