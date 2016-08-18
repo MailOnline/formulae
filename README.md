@@ -45,10 +45,10 @@ else {
 The output will be a chain of properties that respect what we described: `y = x + 10`. 
 
 ```swift
-// y.value == 10 ( 0 + 10 )
+// propertyY.value == 10 ( 0 + 10 )
 
-mutablePropertyX.value = 1 // y.value == 11 ( 1 + 10 )
-mutablePropertyX.value = 2 // y.value == 12 ( 2 + 10 )
+propertyX.value = 1 // propertyY.value == 11 ( 1 + 10 )
+propertyX.value = 2 // propertyY.value == 12 ( 2 + 10 )
 ```
 
 ## License
