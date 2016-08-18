@@ -9,9 +9,9 @@ final class PropertyGeneratorTest: XCTestCase {
         let observables = createObservables(withFormula: ["X": "10"])
 
         guard
-             case .some(.readOnly(let property)) = observables["X"]
-        else {
-            fatalError("\(observables)")
+            case .some(.readOnly(let property)) = observables["X"]
+            else {
+                fatalError("\(observables)")
         }
 
         XCTAssert(property.value == 10)
@@ -33,12 +33,12 @@ final class PropertyGeneratorTest: XCTestCase {
     func testVariable_1() {
 
         let observables = createObservables(withFormula: ["X": "X",
-                                                                "Y": "X + 10"])
+                                                          "Y": "X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
             case .some(.readOnly(let propertyY)) = observables["Y"]
-        else {
-            fatalError("\(observables)")
+            else {
+                fatalError("\(observables)")
         }
 
         XCTAssertTrue(propertyX.value == 0)
@@ -48,7 +48,7 @@ final class PropertyGeneratorTest: XCTestCase {
     func testVariable_2() {
 
         let observables = createObservables(withFormula: ["X": "X",
-                                                                "Y": "5 + X + 10"])
+                                                          "Y": "5 + X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
             case .some(.readOnly(let propertyY)) = observables["Y"]
@@ -63,7 +63,7 @@ final class PropertyGeneratorTest: XCTestCase {
     func testVariableDependency_1() {
 
         let observables = createObservables(withFormula: ["X": "X",
-                                                                "Y": "X + 10"])
+                                                          "Y": "X + 10"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
             case .some(.readOnly(let propertyY)) = observables["Y"]
@@ -79,11 +79,11 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(propertyY.value == 20)
     }
 
-    func testVariableMultipleVariables() {
+    func testVariableMultipleVariables_0() {
 
         let observables = createObservables(withFormula: ["X": "X",
-                                                                "Y": "Y",
-                                                                "Z": "X + Y"])
+                                                          "Y": "Y",
+                                                          "Z": "X + Y"])
         guard
             case .some(.readWrite(let propertyX)) = observables["X"],
             case .some(.readWrite(let propertyY)) = observables["Y"],
@@ -102,6 +102,27 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(propertyZ.value == 20)
     }
 
+    func testVariableMultipleVariables_1() {
+
+        let observables = createObservables(withFormula: ["X": "X",
+                                                          "Y": "X + 20",
+                                                          "Z": "X + Y + 5"])
+        guard
+            case .some(.readWrite(let propertyX)) = observables["X"],
+            case .some(.readOnly(let propertyY)) = observables["Y"],
+            case .some(.readOnly(let propertyZ)) = observables["Z"]
+            else {
+                fatalError("\(observables)")
+        }
+
+        XCTAssertTrue(propertyX.value == 0)
+        XCTAssertTrue(propertyY.value == 20)
+        XCTAssertTrue(propertyZ.value == 25)
+
+        propertyX.value = 10
+        XCTAssertTrue(propertyZ.value == 45)
+    }
+
     func testConstant_operations() {
 
         let operations = ["5 + 3", "5 - 3", "5 * 3", "5 / 3"]
@@ -116,7 +137,7 @@ final class PropertyGeneratorTest: XCTestCase {
                 else {
                     fatalError("\(observables)")
             }
-
+            
             XCTAssertTrue(propertyX.value == results[index])
         }
     }
