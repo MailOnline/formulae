@@ -109,7 +109,14 @@ private func createObservableTokens(variableToTokens: [String: [Token]] = [:]) -
             //1st check if we are dealing with just a var (simpler case)
             guard tokens.count != 1 else {
 
-                let property = MutableProperty(0.0)
+                let property: MutableProperty<Double>
+
+                switch tokens[0] {
+                case .constant(let value): property = MutableProperty(value)
+                case .variable: property = MutableProperty(0.0)
+                case .mathSymbol: fatalError("")
+                }
+                
                 memo[variable] = property
                 return [.observable(.readWrite(property))]
             }

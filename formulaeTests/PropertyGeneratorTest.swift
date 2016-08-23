@@ -4,7 +4,7 @@ import ReactiveCocoa
 
 final class PropertyGeneratorTest: XCTestCase {
 
-    func testSingleConstant() {
+    func testSingleConstant_0() {
 
         let observables = createObservables(withFormula: ["X": "10"])
 
@@ -15,6 +15,36 @@ final class PropertyGeneratorTest: XCTestCase {
         }
 
         XCTAssert(property.value == 10)
+    }
+
+    func testSingleConstant_1() {
+
+        let observables = createObservables(withFormula: ["X": "10", "Y": "10", "Z": "X + Y"])
+
+        guard
+            case .some(.readOnly) = observables["X"],
+            case .some(.readOnly) = observables["Y"],
+            case .some(.readOnly(let property)) = observables["Z"]
+            else {
+                fatalError("\(observables)")
+        }
+
+        XCTAssert(property.value == 20)
+    }
+
+    func testSingleConstant_2() {
+
+        let observables = createObservables(withFormula: ["X": "10", "Y": "10", "Z": "X + Y + 10"])
+
+        guard
+            case .some(.readOnly) = observables["X"],
+            case .some(.readOnly) = observables["Y"],
+            case .some(.readOnly(let property)) = observables["Z"]
+            else {
+                fatalError("\(observables)")
+        }
+        
+        XCTAssert(property.value == 30)
     }
 
     func testSingleVariable_0() {
