@@ -59,8 +59,7 @@ propertyX.value = 2 // propertyY.value == 12 ( 2 + 10 )
 * `/`
 * `^`
 
-You can also parenthesis:  `x * ( 2 + 3 )`
-
+You can also use parenthesis: `x * ( 2 + 3 )`
 
 ## License
 *formulae* is licensed under the MIT License, Version 2.0. [View the license file](LICENSE)
