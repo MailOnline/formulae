@@ -218,8 +218,8 @@ final class PropertyGeneratorTest: XCTestCase {
 
     func testConstant_operations() {
 
-        let operations = ["5 + 3", "5 - 3", "5 * 3", "5 / 3"]
-        let results: [Double] = [8, 2, 15, (5 / 3)]
+        let operations = ["5 + 3", "5 - 3", "5 * 3", "5 / 3", "2 ^ 0"]
+        let results: [Double] = [8, 2, 15, (5 / 3), 1]
 
         for (index, val) in operations.enumerated() {
 
