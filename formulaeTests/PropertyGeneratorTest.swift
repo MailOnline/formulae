@@ -180,6 +180,42 @@ final class PropertyGeneratorTest: XCTestCase {
         XCTAssertTrue(propertyZ.value == 50)
     }
 
+    func testVariableMultipleVariables_5() {
+
+        let observables = createObservables(withFormula: ["A": "A",
+                                                          "B": "B",
+                                                          "C": "2",
+                                                          "X": "1",
+                                                          "Y": "X + 2",
+                                                          "Z": "( ( X + Y + 5 + A ) ^ B ) ^ C"])
+        guard
+            case .some(.readWrite(let propertyA)) = observables["A"],
+            case .some(.readWrite(let propertyB)) = observables["B"],
+            case .some(.readOnly) = observables["C"],
+            case .some(.readOnly(let propertyX)) = observables["X"],
+            case .some(.readOnly(let propertyY)) = observables["Y"],
+            case .some(.readOnly(let propertyZ)) = observables["Z"]
+            else {
+                fatalError("\(observables)")
+        }
+
+        propertyA.value = 1
+        propertyB.value = 1
+
+        XCTAssertTrue(propertyA.value == 1)
+        XCTAssertTrue(propertyX.value == 1)
+        XCTAssertTrue(propertyY.value == 3)
+        XCTAssertTrue(propertyZ.value == 100)
+
+        propertyA.value = 2
+        propertyB.value = 2
+        XCTAssertTrue(propertyZ.value == 14641.0)
+
+        propertyA.value = 3
+        propertyB.value = 3
+        XCTAssertTrue(propertyZ.value == 2985984.0)
+    }
+
     func testConstant_operations() {
 
         let operations = ["5 + 3", "5 - 3", "5 * 3", "5 / 3"]
