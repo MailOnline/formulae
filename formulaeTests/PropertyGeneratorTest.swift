@@ -234,4 +234,16 @@ final class PropertyGeneratorTest: XCTestCase {
             XCTAssertTrue(propertyX.value == results[index])
         }
     }
+
+    func testPerformance() {
+        self.measure {
+            let _ = createObservables(withFormula: ["A": "A",
+                                                    "B": "B",
+                                                    "C": "2",
+                                                    "D": "D",
+                                                    "X": "1",
+                                                    "Y": "X + 2",
+                                                    "Z": "( ( X + Y + 5 + A ) ^ B ) ^ C + 20 / D"])
+        }
+    }
 }

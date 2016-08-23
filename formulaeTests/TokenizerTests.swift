@@ -9,4 +9,12 @@ final class TokenizerTests: XCTestCase {
 
         XCTAssert(tokens == expectations)
     }
+
+    func testPerformance() {
+        let tokens = "( ( 10 + X * 0 ( 1 - 3 ) / 10 ) ^ 3 ) * 1 + ( ( 10 + X * 0 ( 1 - 3 ) / 10 ) ^ 3 ) * 1 * 0"
+
+        self.measure {
+            let _ = tokens.tokenized()
+        }
+    }
 }
