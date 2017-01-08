@@ -1,4 +1,4 @@
-import ReactiveCocoa
+import ReactiveSwift
 
 private enum ObservableToken {
     case observable(Observable)
@@ -6,7 +6,7 @@ private enum ObservableToken {
     case mathOperator(Operator)
 }
 
-private func apply(f: (Double, Double) -> Double, lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
+private func apply(f: @escaping (Double, Double) -> Double, lhs: ObservableToken, rhs: ObservableToken) -> ObservableToken {
     switch (lhs, rhs) {
     case (.observable(let x), .observable(let y)):
         return .observable(apply(f: f, lhs: x, rhs: y))
@@ -45,7 +45,7 @@ public enum Observable {
     case readWrite(MutableProperty<Double>)
 }
 
-private func apply(f: (Double, Double) -> Double, lhs: Observable, rhs: Observable) -> Observable {
+private func apply(f: @escaping (Double, Double) -> Double, lhs: Observable, rhs: Observable) -> Observable {
     switch (lhs, rhs) {
     case (.readOnly(let x), .readOnly(let y)):
         return .readOnly(x.combineLatest(with: y).map(f))

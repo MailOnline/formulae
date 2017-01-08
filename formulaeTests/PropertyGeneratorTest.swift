@@ -1,5 +1,5 @@
 import XCTest
-import ReactiveCocoa
+import ReactiveSwift
 @testable import formulae
 
 final class PropertyGeneratorTest: XCTestCase {
