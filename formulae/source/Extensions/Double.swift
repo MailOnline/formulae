@@ -1,6 +1,20 @@
 import Foundation
 
-infix operator ^ { associativity left precedence 160 }
+precedencegroup Additive {
+	associativity: left
+}
+
+precedencegroup Multiplicative {
+	associativity: left
+	higherThan: Additive
+}
+
+precedencegroup Exponentiative {
+	associativity: left
+	higherThan: Multiplicative
+}
+
+infix operator ^: Exponentiative
 func ^ (radix: Double, power: Double) -> Double {
     return pow(radix, power)
 }

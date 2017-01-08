@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B284173B1E227C810094B9F4 /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B284173A1E227C810094B9F4 /* ReactiveSwift.framework */; };
 		C70DD9241D65D14000BAAF60 /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = C70DD9231D65D14000BAAF60 /* Dictionary.swift */; };
 		C74E32AE1D632F53004D7B42 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = C74E32AD1D632F53004D7B42 /* Array.swift */; };
 		C75804E61D61D67000F21AF8 /* formulae.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C75804DC1D61D67000F21AF8 /* formulae.framework */; };
@@ -16,7 +17,6 @@
 		C76133811D647F3500D50AFD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76133801D647F3500D50AFD /* String.swift */; };
 		C763A4AA1D64C07000FEDA14 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = C763A4A91D64C07000FEDA14 /* Double.swift */; };
 		C763A4AC1D64CD1E00FEDA14 /* TokenizerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C763A4AB1D64CD1E00FEDA14 /* TokenizerTests.swift */; };
-		C7C07E7F1D61FF5C009BFD20 /* ReactiveCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C07E7D1D61FF5C009BFD20 /* ReactiveCocoa.framework */; };
 		C7C07E801D61FF5C009BFD20 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7C07E7E1D61FF5C009BFD20 /* Result.framework */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B284173A1E227C810094B9F4 /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/iOS/ReactiveSwift.framework; sourceTree = "<group>"; };
 		C70DD9231D65D14000BAAF60 /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
 		C74E32AD1D632F53004D7B42 /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		C75804DC1D61D67000F21AF8 /* formulae.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = formulae.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C7C07E7F1D61FF5C009BFD20 /* ReactiveCocoa.framework in Frameworks */,
+				B284173B1E227C810094B9F4 /* ReactiveSwift.framework in Frameworks */,
 				C7C07E801D61FF5C009BFD20 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -146,6 +147,7 @@
 		C7C07E7C1D61FF5C009BFD20 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B284173A1E227C810094B9F4 /* ReactiveSwift.framework */,
 				C7C07E7D1D61FF5C009BFD20 /* ReactiveCocoa.framework */,
 				C7C07E7E1D61FF5C009BFD20 /* Result.framework */,
 			);
@@ -210,7 +212,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0800;
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = MailOnline;
 				TargetAttributes = {
 					C75804DB1D61D67000F21AF8 = {
@@ -269,7 +271,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -285,7 +287,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Result.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/ReactiveSwift.framework",
 			);
 			outputPaths = (
 			);
@@ -347,6 +349,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -400,6 +403,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
